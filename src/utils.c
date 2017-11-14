@@ -8,6 +8,7 @@ void mysh_parse_command(const char* command,
                         int* n_commands,
                         struct single_command (*commands)[])
 {
+
   char buf[4096];
   strcpy(buf, command);
 

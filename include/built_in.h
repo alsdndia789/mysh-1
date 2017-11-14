@@ -10,7 +10,9 @@ struct built_in_command
   built_in_command_do command_do;
   built_in_command_validate command_validate;
 };
-
+int do_ls(int argc, char** argv);
+int do_cat(int argc, char** argv);
+int do_vim(int argc, char** argv);
 /**
   do_cd(argc, argv)
 
@@ -37,6 +39,7 @@ int do_cd(int argc, char** argv);
 */
 int do_pwd(int argc, char** argv);
 
+
 int do_fg(int argc, char** argv);
 
 /**
@@ -46,6 +49,10 @@ int do_fg(int argc, char** argv);
     If success, return 1. (true)
     Else return 0. (false)
 */
+int validate_ls_argv(int argc, char** argv);
+int validate_cat_argv(int argc, char** argv);
+int validate_vim_argv(int argc, char** argv);
+
 int validate_cd_argv(int argc, char** argv);
 /**
   validate_pwd_argv(argc, argv)
@@ -55,6 +62,7 @@ int validate_cd_argv(int argc, char** argv);
     Else return 0. (false)
 */
 int validate_pwd_argv(int argc, char** argv);
+
 
 int validate_fg_argv(int argc, char** argv);
 

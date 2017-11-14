@@ -1,15 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 
 #include "commands.h"
 #include "built_in.h"
 #include "utils.h"
-
+#include "signal_handler.h"
 int main()
 {
+  signal(SIGINT, SIG_IGN);
+  signal(SIGTSTP, SIG_IGN);
   char buf[8096];
-
+  
+  
   while (1) {
     fgets(buf, 8096, stdin);
 

@@ -6,10 +6,16 @@
 #include "commands.h"
 #include "built_in.h"
 
+
 static struct built_in_command built_in_commands[] = {
   { "cd", do_cd, validate_cd_argv },
   { "pwd", do_pwd, validate_pwd_argv },
-  { "fg", do_fg, validate_fg_argv }
+  { "fg", do_fg, validate_fg_argv },
+  { "/bin/ls", do_ls, validate_ls_argv },
+  { "/bin/cat", do_cat, validate_cat_argv },
+  { "/usr/bin/vim",do_vim, validate_vim_argv },
+  { "fg",do_fg, validate_fg_argv }
+
 };
 
 static int is_built_in_command(const char* command_name)
@@ -30,15 +36,28 @@ static int is_built_in_command(const char* command_name)
  */
 int evaluate_command(int n_commands, struct single_command (*commands)[512])
 {
+
   if (n_commands > 0) {
     struct single_command* com = (*commands);
 
-    assert(com->argc != 0);
 
+	if (strcmp(com->argv[0],"ls") == 0)  {
+	  strcpy(com->argv[0],"/bin/ls");
+  	}
+  	if (strcmp(com->argv[0],"cat") == 0)  {
+  	  strcpy(com->argv[0],"/bin/cat");
+  	}
+  	if (strcmp(com->argv[0],"vim") == 0)  {
+  	  strcpy(com->argv[0],"/usr/bin/vim");
+  	}
+
+    assert(com->argc != 0);
     int built_in_pos = is_built_in_command(com->argv[0]);
+
     if (built_in_pos != -1) {
       if (built_in_commands[built_in_pos].command_validate(com->argc, com->argv)) {
         if (built_in_commands[built_in_pos].command_do(com->argc, com->argv) != 0) {
+          if ((strcmp(com->argv[0],"/bin/ls") !=0) && (strcmp(com->argv[0],"/bin/cat") != 0) && (strcmp(com->argv[0],"/usr/bin/vim") !=0 ) && (strcmp(com->argv[0],"ls") != 0))
           fprintf(stderr, "%s: Error occurs\n", com->argv[0]);
         }
       } else {
