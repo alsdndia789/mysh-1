@@ -50,6 +50,9 @@ int evaluate_command(int n_commands, struct single_command (*commands)[512])
   	if (strcmp(com->argv[0],"vim") == 0)  {
   	  strcpy(com->argv[0],"/usr/bin/vim");
   	}
+	if ((strcmp(com->argv[0],"cd") == 0) && (strcmp(com->argv[1],"~") ==0)) {
+	  strcpy(com->argv[1],"/");
+	}
 
     assert(com->argc != 0);
     int built_in_pos = is_built_in_command(com->argv[0]);

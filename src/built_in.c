@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dirent.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -68,7 +69,7 @@ int do_ls(int argc, char **argv) {
 	execv(argv[0],argv);
 	wait(NULL);
 	}
-    if else (pid == 0)
+    else if(pid == 0)
     {
  	exit(-1);
     }
@@ -78,9 +79,13 @@ int do_ls(int argc, char **argv) {
 int do_cd(int argc, char** argv) {
   if (!validate_cd_argv(argc, argv))
     return -1;
+ 
+  if(argv[1]=="~") return 0;
 
-  if (chdir(argv[1]) == -1)
+  else if (chdir(argv[1]) == -1) {
     return -1;
+  }
+  else
 
   return 0;
 }
@@ -135,6 +140,10 @@ int validate_cd_argv(int argc, char** argv) {
 
   struct stat buf;
   stat(argv[1], &buf);
+
+  if ((strcmp(argv[0],"cd")==0) && (strcmp(argv[1],"~")==0)) {
+    return 1;
+  }
 
   if (!S_ISDIR(buf.st_mode)) return 0;
 
